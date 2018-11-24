@@ -1,4 +1,4 @@
-$:.push File.expand_path('lib', __dir__)
+$LOAD_PATH.push File.expand_path('lib', __dir__)
 
 # Maintain your gem's version:
 require 'saferpay/api/version'
@@ -15,4 +15,8 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
+
+  s.add_dependency 'faraday', '< 1'
+
+  s.add_development_dependency 'rubocop', '< 1'
 end

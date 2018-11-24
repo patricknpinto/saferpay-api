@@ -1,3 +1,5 @@
+require 'faraday'
+
 module Saferpay
   module Api
     class Client
@@ -29,7 +31,17 @@ module Saferpay
           req.body = body.to_json
         end
 
+        analyse_response(response)
+
         JSON.parse(response.body)
+      end
+
+      def analyse_response(response)
+        return if response.status.to_s.starts_with?('2')
+
+        msg = JSON.parse(response.body)['ErrorMessage']
+
+        raise(Saferpay::RequestError, msg.is_a?(Array) ? msg[0] : msg.to_s)
       end
 
       def initialize_body(params)
